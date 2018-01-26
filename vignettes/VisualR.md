@@ -15,6 +15,7 @@ vignette: >
 
 ```
 
-```{r setup}
+```{r}
 print(1:10)
+1:10
 ```
