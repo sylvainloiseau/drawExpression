@@ -1,0 +1,51 @@
+---
+title: "Understanding R data structure with drawExpression"
+author: "Sylvain Loiseau"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette: default
+vignette: >
+  %\VignetteIndexEntry{Understanding R data structure with drawExpression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(drawExpression)
+```
+
+## Visualisation of common R data structures
+
+### Vector
+
+```{r}
+x <- 4:6
+drawExpression("x")
+```
+
+```{r}
+names(x) <- LETTERS[1:3]
+drawExpression("x", draw.names = TRUE)
+```
+
+```{r}
+drawExpression("x[2]")
+```
+
+### List
+
+```{r}
+l <- list(F, 1:3, list(1:2, "foo"))
+drawExpression("l")
+```
+
+### Functions
+
+```{r}
+drawExpression("sum(x)")
+```
+
