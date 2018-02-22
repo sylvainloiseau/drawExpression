@@ -1,58 +1,44 @@
-## TODO
+#' drawExpression
+#'
+#' Visualising R syntax through graphics
+#'
+#' @docType package
+#' @name drawExpression
+#' @import grid
+#' @importFrom grDevices dev.off pdf
+#' @importFrom graphics plot.new
+NULL
 
-# "table" object doesn't work: table is numeric but not vector. table(x, y) give a matrice (is.matrix()->TRUE)
-# dealing with formula object?
-#   subset: argument as formula
-# do something for the attributes of a vector
-#  (eg. for regexp functions...)
-
-# Add the original code on a first line?
-# matrice : problem with column width when indices are two number length
-# data frame and matrix share too much code
-
-#I'm wondering if I shouldn't automatically shorten vectors and matrixes when
-#they are two long. For instances, for vectors longer than six elements, add a
-#"..." as sixth element. I will make clearer the emphasis on the steps of the
-#evaluation of the expression.
-
-
-
-# by Hadley Wickham <hadley@rice.edu> :
-
-# It would be great if drawExpression distinguished between vectors and
-# single row matrices:
+# S3method(drawDetails, lineBox);
+# S3method(drawDetails, functionText);
+# S3method(drawDetails, listBox);
+# S3method(drawDetails, vectorBox);
+# S3method(drawDetails, matrixBox);
+# S3method(drawDetails, dataframeBox);
 # 
-# library(drawExpression)
-# 
-# a <- 1:5
-# b <- matrix(1:5, nrow = 1)
-# drawExpression("list(a, b)")
-# 
-# # And arrays don't seem to work in a list:
-# 
-# c <- array(1:5, c(1, 5, 1))
-# drawExpression("list(a, b, c)")
-# 
-# drawExpression("c") # works, but drawn in wrong direction
-#
-# Thanks for the drawExpression package - it looks really great.  A few comments:
-# 
-# * Have you thought about visualising the non-evaluated expressions?
-# i.e. just show the parse tree?  I've attached the R code I use to draw
-# them as text, but it would be much nicer to draw them as graphics.
-# 
-# * I think drawExpression should accept calls as well as strings - so
-# you can do (e.g.) drawExpression(quote(a + b * c))
-# 
-# * When a matrix has row/column names, I think you should just show
-# them, not show the indices as well.
 
 debuging <- FALSE;
 
-##
-## The public method
-##
-
+#' Draw a graphical representation of the evaluation of an R expression.
+#'
+#' @param expr A character vector containing an R expression to be drawn; cannot contain affectation.
+#' @param draw.index Should index (for R objects such as vector, matrix or list) be drawn on the margin of graphics?
+#' @param draw.names Should names (if any) be drawn on the margin of objects?
+#' @param filename The name of a PDF file where the plot will be saved
+#'
+#' @return nothing
+#' @export
+#' @author  Sylvain Loiseau <sylvain.loiseau@univ-paris13.fr>
+#'
+#' @examples
+#'   drawExpression("1:4");
+#'   drawExpression("matrix(1:4, 2)");
+#'   drawExpression("list(1:4, matrix(1:4, 2), 2, 3, 4)");
+#'   drawExpression("c(1, 2, 3:5) > 2");
+#'   
+#'   x <- 1:4
+#'   drawExpression("x");
+#'   drawExpression("sum(x)");
 drawExpression <- function (expr, draw.index=FALSE, draw.names=FALSE, filename=NULL) {
   if (mode(expr) != "character") {
     stop("expr must be a characters string");
@@ -509,4 +495,52 @@ objectGrob <- function(obj) {
  }
  stop(paste("Object not known", mode(obj)));
 }
+
+
+## TODO
+
+# "table" object doesn't work: table is numeric but not vector. table(x, y) give a matrice (is.matrix()->TRUE)
+# dealing with formula object?
+#   subset: argument as formula
+# do something for the attributes of a vector
+#  (eg. for regexp functions...)
+
+# Add the original code on a first line?
+# matrice : problem with column width when indices are two number length
+# data frame and matrix share too much code
+
+#I'm wondering if I shouldn't automatically shorten vectors and matrixes when
+#they are two long. For instances, for vectors longer than six elements, add a
+#"..." as sixth element. I will make clearer the emphasis on the steps of the
+#evaluation of the expression.
+
+# by Hadley Wickham <hadley@rice.edu> :
+
+# It would be great if drawExpression distinguished between vectors and
+# single row matrices:
+# 
+# library(drawExpression)
+# 
+# a <- 1:5
+# b <- matrix(1:5, nrow = 1)
+# drawExpression("list(a, b)")
+# 
+# # And arrays don't seem to work in a list:
+# 
+# c <- array(1:5, c(1, 5, 1))
+# drawExpression("list(a, b, c)")
+# 
+# drawExpression("c") # works, but drawn in wrong direction
+#
+# Thanks for the drawExpression package - it looks really great.  A few comments:
+# 
+# * Have you thought about visualising the non-evaluated expressions?
+# i.e. just show the parse tree?  I've attached the R code I use to draw
+# them as text, but it would be much nicer to draw them as graphics.
+# 
+# * I think drawExpression should accept calls as well as strings - so
+# you can do (e.g.) drawExpression(quote(a + b * c))
+# 
+# * When a matrix has row/column names, I think you should just show
+# them, not show the indices as well.
 
